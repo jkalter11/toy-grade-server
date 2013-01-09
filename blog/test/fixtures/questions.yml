@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  question: MyString
+  is_mc: false
+  a: MyString
+  b: MyString
+  c: MyString
+  d: MyString
+  answer: MyString
+  assignment: MyString
+  course: MyString
+  semester: MyString
+
+two:
+  question: MyString
+  is_mc: false
+  a: MyString
+  b: MyString
+  c: MyString
+  d: MyString
+  answer: MyString
+  assignment: MyString
+  course: MyString
+  semester: MyString

@@ -1,0 +1,33 @@
+<div class="container">
+	<div class="hero-unit courses">
+
+	<h2>Assignments</h2>
+	<br>
+	<table style="width:600px">
+	  <tr>
+  	    <th>Course Code</th>
+  	    <th>Assignment</th>
+  	    <th>Due Date</th>
+  	    <th>Edit</th>
+  	    <th>Destroy</th>
+	  </tr>
+
+    <% Course.find_by_sql("select * from courses where email like '%#{current_user.email}%'").each do |course| %>
+	<% Assignment.find(:all, :conditions => ["email LIKE ?", "%#{current_user.email}%"]).each do |assignment| %>
+	  <tr style="height:30px">
+  	    <td><%= assignment.course %></td>
+  	    <td><%= assignment.description %></td>
+  	    <td><%= assignment.due_date.strftime("%m/%d/%Y") %></td>
+	    <td><%= link_to 'Edit', assignment %></td>
+	    <td><%= link_to 'Destroy', assignment, :confirm => 'Are you sure?', :method => :delete %></td>
+	  </tr>
+	<% end %>
+	<% end %>
+	</table>
+
+	<br />
+
+	<%= link_to 'New Assignment', new_assignment_path %>
+
+	</div>
+</div>

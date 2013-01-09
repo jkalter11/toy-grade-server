@@ -1,4 +1,15 @@
-Blog::Application.routes.draw do
+Mooc::Application.routes.draw do
+  resources :answers
+  
+  resources :questions
+
+  resources :assignments
+
+  resources :courses
+
+  devise_for :users
+
+  root :to => 'home#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

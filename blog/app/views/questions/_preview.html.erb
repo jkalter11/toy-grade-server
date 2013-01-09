@@ -1,0 +1,34 @@
+
+<%= Question.find_by_sql("select * from questions where assignment like '%#{@assignment.description}%' and
+course like '%#{@assignment.course}%' and semester like '%#{@assignment.semester}%'").each do |question| %>
+  Question: <%= question.question %>
+  <br>
+  <% if question.is_mc %>
+    A: <%= question.a %>
+	<br>
+    B: <%= question.b %>
+	<br>
+    C: <%= question.c %>
+	<br>
+    D: <%= question.d %>
+	<br>
+  <% end %>
+    Answer: <%= question.answer %>
+  <br>
+  <%= form_for question, :remote => true, :'data-update-target' => 'current_questions', :id => 'remove_question' do |t| %>
+  	<div class="field">
+  		<%= t.hidden_field 'assignment', :value => 'ultra_null' %>
+  	</div>
+   	<div class="field">
+  		<%= t.hidden_field 'course', :value => 'ultra_null' %>
+  	</div>
+   	<div class="field">
+  		<%= t.hidden_field 'semester', :value => 'ultra_null' %>
+  	</div>
+  	<div class="actions">
+  		<%= submit_tag "Remove", :id => "remove_question_button" %>
+  	</div>	
+  <% end %>
+  <br>
+  <br>
+<% end %>

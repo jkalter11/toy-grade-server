@@ -1,0 +1,18 @@
+<p>
+  <b>Course code:</b>
+  <%= best_in_place @course, :course_code %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= best_in_place @course, :description %>
+</p>
+
+<p>
+  <b>Semester:</b>
+  <%= best_in_place @course, :semester %>
+</p>
+
+
+<%= link_to 'Edit', edit_course_path(@course) %> |
+<%= link_to 'Back', courses_path %>

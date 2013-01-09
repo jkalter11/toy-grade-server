@@ -1,0 +1,83 @@
+<div class="assignment_grader">
+	<div class="hero-unit" style="width: 900px; padding: 20px; text-align:center; margin: 70px auto 30px">
+		<h2>Assignment Grader</h2>
+		<p>
+			Assignment: <%= @assignment.description%>
+		<br> Course: <%= @assignment.course%>
+		<br> Due Date: <%= @assignment.due_date.strftime("%m/%d/%Y") %>
+		</p>
+		<% Answer.find_by_sql("select * from answers where assignment like '%#{@assignment.description}%' and
+		course like '%#{@assignment.course}%' and semester like '%#{@assignment.semester}%' and is_correct like 'z'").each do |answer| %>
+			<% Question.find_by_sql("select * from questions where question like '%#{answer.question}%' and assignment like '%#{@assignment.description}%' and
+			course like '%#{@assignment.course}%' and semester like '%#{@assignment.semester}%' and is_mc = 't'").each do |question| %>
+				<% if answer.answer == question.answer %>
+				<% answer.update_attribute(:is_correct, 't') %>
+				<% else %>
+					<% answer.update_attribute(:is_correct, 'f') %>
+				<% end %>
+			<% end %>
+
+		<% end %>
+	</div>
+	<div class="subcontainer">
+		<div class="hero-unit side" style="margin: 0 50px 0 100px">
+			<h2>To Grade</h2>
+				<br>
+			<% Answer.find_by_sql("select * from answers a where a.assignment like '%#{@assignment.description}%' and
+		a.course like '%#{@assignment.course}%' and a.semester like '%#{@assignment.semester}%' and a.is_correct like 'z'").each do |answer| %>
+			Student: <%= answer.student_email %> <br>
+			Question: <%= answer.question %> <br>
+			Submitted Answer: <%= answer.answer %> 
+			
+			<br><br>
+			<%= form_for(answer) do |f| %>
+
+			  <div class="field">
+			    <%= f.hidden_field :question, :value => answer.question %>
+			    <%= f.hidden_field :course, :value => answer.course %>
+			    <%= f.hidden_field :semester, :value => answer.semester %>
+			    <%= f.hidden_field :answer, :value => answer.answer %>
+			    Correct: <%= f.radio_button(:is_correct, 't') %>  Incorrect: <%= f.radio_button(:is_correct, 'f') %>
+			    <%= f.hidden_field :student_email, :value => answer.student_email %>
+			  </div>
+			  <div class="actions">
+			    <%= f.submit 'Grade' %>
+			  </div>
+  
+			  <% end %>
+			  <HR COLOR="#000000" > 
+			<% end %>
+			
+		</div>			
+		<div class="hero-unit side" style="margin: 0 50px 0 0">
+			<h2>Graded</h2>
+			<br>
+			<% Answer.find_by_sql("select * from answers a where a.assignment like '%#{@assignment.description}%' and
+		a.course like '%#{@assignment.course}%' and a.semester like '%#{@assignment.semester}%' and (a.is_correct like 'f' or a.is_correct like 't')").each do |answer| %>
+			Student: <%= answer.student_email %> <br>
+			Question: <%= answer.question %> <br>
+			Submitted Answer: <%= answer.answer %> <br>
+			<br><br>
+			Update Correction <%= form_for(answer) do |f| %>
+
+			  <div class="field">
+			    <%= f.hidden_field :question %>
+			    <%= f.hidden_field :course %>
+			    <%= f.hidden_field :semester %>
+			    <%= f.hidden_field :answer %>
+			    Correct: <%= f.radio_button(:is_correct, 't') %> Incorrect: <%= f.radio_button(:is_correct, 'f') %>
+			    <%= f.hidden_field :student_email %>
+			  </div>
+			  <div class="actions">
+			    <%= f.submit %>
+			  </div>
+  
+			  <% end %>
+			  <HR COLOR="#000000" > 
+			<% end %>
+			
+		</div>
+	</div>
+</div>
+
+<div class="clearfix"></div>
