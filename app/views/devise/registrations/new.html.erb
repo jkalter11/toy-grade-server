@@ -1,0 +1,27 @@
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= devise_error_messages! %>
+
+  <div><%= f.label :name %>
+  <%= f.text_field :name, :placeholder => "Full Name" %></div>
+  
+  <div><%= f.label :email %>
+	  <%= f.email_field :email, :placeholder => "Valid umd.edu address"  %></div>
+
+  <div><%= f.label :password %>
+	  <%= f.password_field :password, :placeholder => "6 character minimum"  %></div>
+
+  <div><%= f.label :password_confirmation %>
+	  <%= f.password_field :password_confirmation, :placeholder => "6 character minimum"  %></div>
+  
+  I am a/an:<br>
+  <div class="instr_radio">
+	  &nbsp;&nbsp;&nbsp;&nbsp;<%= f.radio_button(:is_instructor, false) %>
+	  <%= label_tag(:is_instructor, "Student") %>
+  </div>
+  <div class="instr_radio">
+	  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= f.radio_button(:is_instructor, true) %>
+	  <%= label_tag(:is_instructor, "Instructor") %>
+  </div>
+  
+  <div><%= f.submit "Sign up" %></div>
+<% end %>
